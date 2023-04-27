@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form with Validation in iframe</title>
+    
+</head>
+
+<body>
+    <!-- <h1> hi </h1>
+    <div id = "message">
+        <p>results </p>
+    </div> -->
+    <iframe 
+    height="650";
+    width="400";
+    margin-top="50px";
+    margin-right="50px";
+    srcdoc="
+    <!DOCTYPE html>
+    <html lang=&quot;en&quot;>
+    
+    <head>
+        <meta charset=&quot;UTF-8&quot;>
+        <meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;>
+        <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+        <title>Form with Validation</title>
+        <link rel=&quot;stylesheet&quot; href=&quot;iframe.css&quot;>
+
+        <script>
+    
+            // API request for country selection - 
+    
+            window.addEventListener(&quot;load&quot;, function () {
+                // Loading country selection
+                fetch(&quot;https://raw.githubusercontent.com/stefanbinder/countries-states/master/countries.json&quot;)
+                    .then(response => response.json())
+                    .then(countries => {
+                        var options = &quot;<option value=''>Select Country</option>&quot;;
+                        countries.forEach(country => {
+                            options += &quot;<option value='&quot; + country.code2 + &quot;'>&quot; + country.name + &quot;</option>&quot;;
+                        });
+                        document.getElementById(&quot;country&quot;).innerHTML = options;
+                    })
+                    .catch(error => console.error(error));
+    
+    
+                // Adding event listener to countries
+                document.getElementById(&quot;country&quot;).addEventListener(&quot;change&quot;, function () {
+                    // Load states for the selected country into the states dropdown
+                    var countryCode = this.value;
+                    // console.log(countryCode); 
+                    fetch(&quot;https://raw.githubusercontent.com/stefanbinder/countries-states/master/countries.json&quot;)
+                        .then(response => response.json())
+                        .then(countries => {
+                            const selectedCountry = countries.find(country => country.code2 === countryCode);
+                            // console.log(selectedCountry);
+                            if (selectedCountry) {
+                                var states = selectedCountry.states;
+                               // console.log(states); 
+                                var options = &quot;<option value=''>Select State</option>&quot;;
+                                states.forEach(state => {
+                                    options += &quot;<option value='&quot; + state.code + &quot;'>&quot; + state.name + &quot;</option>&quot;;
+                                });
+                                document.getElementById(&quot;state&quot;).innerHTML = options;
+                            } else {
+                                document.getElementById(&quot;state&quot;).innerHTML = &quot;<option value=''>Select State</option>&quot;;
+                            }
+                        })
+                        .catch(error => console.error(error));
+                });
+    
+                // Adding event listeners to form 
+    
+                document.querySelector(&quot;form&quot;).addEventListener(&quot;submit&quot;,function(event){
+    
+                    event.preventDefault();
+                    console.log(&quot;Submit button clicked&quot;);
+
+                    var name = document.getElementById(&quot;name&quot;).value;
+                   // console.log(name);
+                    var contact = document.getElementById(&quot;contact&quot;).value;
+                    var country = document.getElementById(&quot;country&quot;).value;
+                    var state = document.getElementById(&quot;state&quot;).value;
+                    var email = document.getElementById(&quot;email&quot;).value;
+    
+    
+                    var errors = &quot; &quot;;
+    
+                    // name validation 
+    
+                    if (name.length < 4 || name.length > 10) {
+                        errors += &quot;Please enter a valid name. \n&quot;;
+                    }
+    
+                    if (!isEmailValid(email)) {
+                        errors += &quot;Please enter a valid email. \n&quot;;
+                    }
+    
+                    if (contact.length != 10) {
+                        errors += &quot;Please enter a valid contact. \n&quot;;
+                    }
+    
+                    if (country === &quot;&quot;) {
+                        errors += &quot;Please enter a valid country. \n&quot;;
+                    }
+    
+                    if (state === &quot;&quot;) {
+                        errors += &quot;Please enter a valid state. \n&quot;;
+                    }
+                   
+                 // sending message to parent from iframe -
+                    const message = JSON.stringify({
+                        message: 'Hello from iframe',
+                        date: Date.now(),
+                    });
+                   // console.log(message);
+                    window.parent.postMessage(message, '*');
+
+
+                 // submission form errors    
+                  if (errors !== &quot; &quot;) {
+                       console.log(errors);
+                       // sending message to parent window from ifram 
+                        window.parent.postMessage({ isValid: false, message: errors }, &quot;*&quot;);
+                 } else {
+                    console.log(&quot;Suceess &quot;);
+                        window.parent.postMessage({ isValid: true, message: &quot;All fields are valid&quot; }, &quot;*&quot;);
+                  }
+                });
+    
+    
+                // Email validation - 
+    
+                function isEmailValid(email) {
+                    var s = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    return s.test(email);
+                }
+    
+            });
+    
+        </script>
+    </head>
+    
+    <body>
+        <form>
+
+            <h2> Can you please provide your personal details?</h2>
+            <!-- Name field  -->
+            <label for=&quot;name&quot;>Name</label>
+            
+            <input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot; placeholder=&quot;Enter you name&quot; required>
+            <br>
+            
+    
+    
+            <!-- Date of birth field -->
+            <label for=&quot;birthday&quot;>Date of birth </label>
+    
+            <input type=&quot;date&quot; id=&quot;dob&quot; name=&quot;dob&quot; placeholder=&quot;dd/mm/yyyy&quot; required>
+            <br>
+            
+    
+    
+            <!-- Contact field -->
+            <label for=&quot;contact&quot;>Contact number</label>
+            <input type=&quot;tel&quot; id=&quot;contact&quot; name=&quot;contact&quot; required>
+            <br>
+            
+    
+            <!-- country field-->
+            <label for &quot;country&quot;>Country</label>
+            <select id=&quot;country&quot; name=&quot;country&quot; required>
+                <option value=&quot;country&quot;>Select Country</option>
+            </select>
+            <br>
+    
+            <!-- state selection -->
+            <label for &quot;state&quot;>State</label>
+        
+            <select id=&quot;state&quot; name=&quot;state&quot; required>
+                <option value=&quot;change&quot;>Select State</option>
+            </select>
+            <br>
+        
+    
+            <!--Email field -->
+            <label for=&quot;email&quot;>Your email</label>
+            
+            <input type=&quot;email&quot; id=&quot;email&quot; name=&quot;name&quot; placeholder=&quot;Enter your email&quot; required>
+            
+            <br>
+    
+            <!-- submit form button -->
+            <input type=&quot;submit&quot; id=&quot;submit&quot; name=&quot;submit&quot; value=&quot;Submit&quot;>
+       </form>
+    </body>
+    </html>
+    ">
+    <div id = "message">
+        <p>results </p>
+    </div>
+
+    <script>
+      
+            // Adding event listener to receive messages from the iframe
+            // window.addEventListener('message', event => {
+            //     // Only process messages from the iframe
+            //     if (event.source !== document.querySelector('iframe')) return;
+            //     // Only process messages with the expected origin
+            //     if (event.origin !== "*") return;
+            //     // Display error or success message in the parent window
+            //     const message = event.data;
+            //      console.log(message);
+    
+            //     if (!message || !message.isValid || !message.message) {
+            //         console.error('Invalid message format');
+            //         return;
+            //     }
+    
+            //     if (message.isValid) {
+            //         document.getElementById('message').textContent ='Success: ' + message.message;
+            //     } else {
+            //         document.getElementById('message').textContent = 'Error: ' + message.message;
+            //     }
+            // });
+
+
+            // window.addEventListener('message', function (e) {
+            // // Get the sent data
+            // const data = e.data;
+            // console.log(data);
+        // });
+    
+    </script>
+    
+   
+</body>
+</html>
