@@ -6,52 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form with Validation in iframe</title>
-    <style>
 
-form {
-    display: flex;
-    flex-direction: column;
-    /* align-items: center; */
-    margin-top: 9px;
-  }
-  
-  label {
-    margin-top: 5px;
-    font-size: 20px;
-    margin-bottom: 2px;
-  }
-  
-  input[type="text"],
-  input[type="date"],
-  input[type="country"],
-  input[type="state"],
-  input[type="tel"],
-  input[type="email"],
-  select {
-    width: 270px;
-    height: 25px;
-    padding: 2px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  input[type="submit"] {
-    width: 150px;
-    height: 40px;
-    margin-top: 15px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 20px;
-  }
-  
-  input[type="submit"]:hover {
-    background-color: #3e8e41;
-  }
 
-    </style>
 </head>
 
 <body>
@@ -73,8 +29,51 @@ form {
         <meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;>
         <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
         <title>Form with Validation</title>
-        <link rel=&quot;stylesheet&quot; href=&quot;iframe.css&quot;>
-
+       
+        <style>
+            form {
+                display: flex;
+                flex-direction: column;
+                /* align-items: center; */
+                margin-top: 9px;
+              }
+              
+              label {
+                margin-top: 5px;
+                font-size: 20px;
+                margin-bottom: 2px;
+              }
+              
+              input[type=&quot;text&quot;],
+              input[type=&quot;date&quot;],
+              input[type=&quot;country&quot;],
+              input[type=&quot;state&quot;],
+              input[type=&quot;tel&quot;],
+              input[type=&quot;email&quot;],
+              select {
+                width: 270px;
+                height: 25px;
+                padding: 2px;
+                border: 2px solid #ccc;
+                border-radius: 5px;
+                font-size: 16px;
+              }
+              
+              input[type=&quot;submit&quot;] {
+                width: 150px;
+                height: 40px;
+                margin-top: 15px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 20px;
+              }
+              
+              input[type=&quot;submit&quot;]:hover {
+                background-color: #3e8e41;
+              }
+                </style>
         <script>
     
             // API request for country selection - 
