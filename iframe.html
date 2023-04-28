@@ -168,12 +168,15 @@
                  // submission form errors    
                   if (errors !== &quot; &quot;) {
                        console.log(errors);
-                       // sending message to parent window from ifram 
+                       document.getElementById(&quot;result&quot;).innerHTML = &quot;Results : &quot;+ errors;
+                       // sending message to parent window from iframe 
                         window.parent.postMessage({ isValid: false, message: errors }, &quot;*&quot;);
                  } else {
                     console.log(&quot;Suceess &quot;);
+                    document.getElementById(&quot;result&quot;).innerHTML = &quot; Results :&quot; + &quot;All fields are valid&quot;;
                         window.parent.postMessage({ isValid: true, message: &quot;All fields are valid&quot; }, &quot;*&quot;);
                   }
+                  
                 });
     
     
@@ -183,7 +186,7 @@
                     var s = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                     return s.test(email);
                 }
-    
+           
             });
     
         </script>
@@ -240,13 +243,17 @@
     
             <!-- submit form button -->
             <input type=&quot;submit&quot; id=&quot;submit&quot; name=&quot;submit&quot; value=&quot;Submit&quot;>
+
+            <div id = &quot;result&quot;>  </div>
        </form>
+
+       
     </body>
     </html>
     ">
-    <div id = "message">
+    <!-- <div id = "message">
         <p>results </p>
-    </div>
+    </div> -->
 
     <script>
       
