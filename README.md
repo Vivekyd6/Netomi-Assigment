@@ -8,8 +8,12 @@ To get started with the application, follow the steps below:
 
 
 ```bash
-1. Clone the repository:
+Clone the repository:
    git clone  [https://github.com/Vivekyd6/Netomi-Assigment.git](https://github.com/Vivekyd6/Netomi-Assigment.git) .
+   
+   
+Run on local server 
+   
 ```
 
 ### Images - 
